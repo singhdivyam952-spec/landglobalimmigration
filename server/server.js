@@ -23,9 +23,10 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-connectDB();
+await connectDB();
 
 const app = express();
+app.set('trust proxy', 1);
 
 app.use(
   helmet({
@@ -46,11 +47,11 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow non-browser tools (no Origin) and configured / LAN frontends
       if (
         !origin ||
         allowedOrigins.includes(origin) ||
-        /^http:\/\/192\.168\.\d+\.\d+:517\d$/.test(origin)
+        /^http:\/\/192\.168\.\d+\.\d+:517\d$/.test(origin) ||
+        /^https:\/\/[\w-]+(?:-[\w]+)*\.vercel\.app$/.test(origin)
       ) {
         return callback(null, true);
       }
@@ -59,13 +60,24 @@ app.use(
     credentials: true,
   })
 );
-app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+} else {
+  app.use(morgan('combined'));
+}
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(mongoSanitize());
 app.use('/api', apiLimiter);
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+const uploadDir =
+  process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+    ? path.join('/tmp', 'uploads')
+    : path.join(__dirname, 'uploads');
+
+app.use('/uploads', express.static(uploadDir));
 
 app.get('/api/health', (_req, res) => {
   res.json({ success: true, message: 'Land Global Immigration API is running' });
@@ -84,7 +96,11 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-  console.log(`LAN: http://192.168.1.9:${PORT}`);
-});
+// Local / non-serverless runtime only
+if (!process.env.VERCEL) {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  });
+}
+
+export default app;

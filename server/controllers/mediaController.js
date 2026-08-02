@@ -6,6 +6,11 @@ import Media from '../models/Media.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const getUploadDir = () =>
+  process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+    ? path.join('/tmp', 'uploads')
+    : path.join(__dirname, '..', 'uploads');
+
 export const getMedia = async (_req, res, next) => {
   try {
     const media = await Media.find().sort({ createdAt: -1 });
@@ -49,7 +54,7 @@ export const replaceMedia = async (req, res, next) => {
     }
 
     const oldFilename = media.image.replace(/^\/?uploads\//, '');
-    const oldPath = path.join(__dirname, '..', 'uploads', oldFilename);
+    const oldPath = path.join(getUploadDir(), oldFilename);
     if (fs.existsSync(oldPath)) {
       fs.unlinkSync(oldPath);
     }
@@ -72,7 +77,7 @@ export const deleteMedia = async (req, res, next) => {
     }
 
     const filename = media.image.replace(/^\/?uploads\//, '');
-    const filePath = path.join(__dirname, '..', 'uploads', filename);
+    const filePath = path.join(getUploadDir(), filename);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }

@@ -4,6 +4,9 @@
   "description": "Backend API for Land Global Immigration consultancy website",
   "main": "server.js",
   "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",

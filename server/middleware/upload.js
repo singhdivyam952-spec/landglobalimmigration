@@ -5,7 +5,11 @@ import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const uploadDir = path.join(__dirname, '..', 'uploads');
+
+const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+const uploadDir = isServerless
+  ? path.join('/tmp', 'uploads')
+  : path.join(__dirname, '..', 'uploads');
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
@@ -25,7 +29,8 @@ const storage = multer.diskStorage({
 const fileFilter = (_req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif|webp|svg/;
   const extOk = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimeOk = allowedTypes.test(file.mimetype.split('/')[1]) || file.mimetype.startsWith('image/');
+  const mimeOk =
+    allowedTypes.test(file.mimetype.split('/')[1]) || file.mimetype.startsWith('image/');
 
   if (extOk && mimeOk) {
     cb(null, true);

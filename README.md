@@ -11,43 +11,21 @@ Production-ready MERN stack immigration consultancy website with a public market
 ## Prerequisites
 
 - Node.js 18+
-- MongoDB running locally (or a MongoDB Atlas connection string)
+- MongoDB Atlas connection string (required for Vercel)
 
-## Setup
+## Local Setup
 
 ### 1. Backend
 
 ```bash
 cd server
 npm install
-```
-
-Create/update `.env` (a sample is already included):
-
-```env
-PORT=5000
-NODE_ENV=development
-MONGODB_URI=mongodb://127.0.0.1:27017/land_global_immigration
-JWT_SECRET=your_strong_jwt_secret_here
-JWT_EXPIRE=7d
-CLIENT_URL=http://localhost:5173
-ADMIN_EMAIL=admin@landglobalimmigration.com
-ADMIN_PASSWORD=Admin@12345
-```
-
-Seed default content and admin user:
-
-```bash
+cp .env.example .env   # then edit MONGODB_URI / secrets
 npm run seed
-```
-
-Start the API:
-
-```bash
 npm run dev
 ```
 
-API runs at `http://localhost:5000`
+API: `http://localhost:5000`
 
 ### 2. Frontend
 
@@ -57,7 +35,7 @@ npm install --legacy-peer-deps
 npm run dev
 ```
 
-Website runs at `http://localhost:5173`
+Site: `http://localhost:5173`
 
 ## Default Admin Credentials
 
@@ -65,35 +43,63 @@ Website runs at `http://localhost:5173`
 - **Email:** `admin@landglobalimmigration.com`
 - **Password:** `Admin@12345`
 
-Change these in production via `.env` before seeding.
+Change these before seeding production.
 
-## Features
+## Deploy to Vercel (Frontend + Backend)
 
-### Public Website
-- Home, About, Services, Contact, Thank You pages
-- Sticky responsive navigation
-- Animated counters, testimonial slider, Framer Motion transitions
-- Contact lead form with validation → saves to MongoDB → redirects to `/thank-you`
-- WhatsApp floating button, back-to-top, SEO meta tags
+Create **two** Vercel projects from the same GitHub repo.
 
-### Admin Panel
-- JWT authentication
-- Dashboard stats
-- Content Manager (Home / About / Contact)
-- Services, Countries, Testimonials CRUD
-- Lead Manager (view / delete)
-- Media Manager (upload / replace / delete)
+### A) Backend project
+
+1. [vercel.com/new](https://vercel.com/new) → import `landglobalimmigration`
+2. **Root Directory:** `server`
+3. Framework: Other
+4. Environment variables:
+
+| Name | Value |
+|------|--------|
+| `MONGODB_URI` | `mongodb+srv://...@cluster0....mongodb.net/land_global_immigration?retryWrites=true&w=majority` |
+| `JWT_SECRET` | strong random secret |
+| `JWT_EXPIRE` | `7d` |
+| `NODE_ENV` | `production` |
+| `CLIENT_URL` | your frontend URL (set after frontend deploy, e.g. `https://xxx.vercel.app`) |
+| `ADMIN_EMAIL` | admin email |
+| `ADMIN_PASSWORD` | admin password |
+
+5. Deploy → copy the API URL (e.g. `https://lgi-api.vercel.app`)
+6. Confirm health: `https://YOUR-API.vercel.app/api/health`
+7. From your PC (once): seed Atlas
+
+```bash
+cd server
+# .env must use the same MONGODB_URI
+npm run seed
+```
+
+**Atlas Network Access:** allow `0.0.0.0/0` (or Vercel IPs) so serverless can connect.
+
+### B) Frontend project
+
+1. Import the same repo again
+2. **Root Directory:** `client`
+3. Framework: Vite
+4. Environment variables:
+
+| Name | Value |
+|------|--------|
+| `VITE_API_URL` | `https://YOUR-API.vercel.app/api` |
+| `VITE_UPLOAD_URL` | `https://YOUR-API.vercel.app` |
+
+5. Deploy
+6. Update backend `CLIENT_URL` to the frontend URL and redeploy backend
+
+### Upload note
+
+On Vercel, disk uploads go to `/tmp` and are **not permanent**. Prefer Unsplash/CDN URLs or add Cloudinary/S3 later for admin media uploads.
 
 ## Project Structure
 
 ```
-client/   React frontend
-server/   Express API + MongoDB models
+client/   React frontend (Vercel project 1)
+server/   Express API (Vercel project 2)
 ```
-
-## Production Notes
-
-- Replace `JWT_SECRET` and admin credentials
-- Set `CLIENT_URL` to your frontend domain
-- Serve the Vite build behind HTTPS
-- Point `MONGODB_URI` to a managed MongoDB instance
