@@ -2,5 +2,8 @@ node_modules/
 uploads/*
 !uploads/.gitkeep
 .env
+.env.local
+.env*.local
 *.log
 .DS_Store
+.vercel
