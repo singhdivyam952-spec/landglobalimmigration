@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  /* Logo red — CTAs & accents */
+  --color-primary: #e31e24;
+  --color-primary-dark: #b8161c;
+  --color-primary-light: #ff3b41;
+  /* Logo navy — structure & brand */
+  --color-navy: #1b3678;
+  --color-navy-dark: #122554;
+  --color-navy-light: #2a4f9e;
+  --color-secondary: #e8eef8;
+  --color-accent: #e31e24;
+  --color-accent-soft: #fde8e9;
+  --color-surface: #f5f7fb;
+  --color-muted: #5f6368;
+  --color-ink: #1a1a1a;
+  --color-bar: #1b3678;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-navy) 22%, white);
+}
+
+.container-custom {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-custom {
+    padding-inline: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-custom {
+    padding-inline: 1.75rem;
+  }
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 9999px;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 24px -12px rgba(227, 30, 36, 0.7);
+}
+
+@media (min-width: 768px) {
+  .btn-primary {
+    font-size: 0.875rem;
+    padding: 0.9rem 1.85rem;
+  }
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px -12px rgba(227, 30, 36, 0.8);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 2px solid white;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  padding: 0.85rem 1.85rem;
+  border-radius: 9999px;
+  background: transparent;
+  transition: all 0.25s ease;
+}
+
+.btn-outline:hover {
+  background: white;
+  color: var(--color-navy);
+}
+
+.btn-navy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-navy);
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  padding: 0.9rem 1.85rem;
+  border-radius: 9999px;
+  transition: all 0.25s ease;
+}
+
+.btn-navy:hover {
+  background: var(--color-navy-dark);
+}
+
+.section-padding {
+  padding-block: 3rem;
+}
+
+@media (min-width: 640px) {
+  .section-padding {
+    padding-block: 4rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-block: 5.5rem;
+  }
+}
+
+.wave-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  line-height: 0;
+}
+
+.page-hero {
+  background: linear-gradient(135deg, var(--color-navy-dark) 0%, var(--color-navy) 55%, #243f82 100%);
+  color: white;
+  padding-block: 2.25rem;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .page-hero {
+    padding-block: 3.5rem;
+  }
+}
+
+.page-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: var(--color-primary);
+}
+
+.admin-input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-input:focus {
+  border-color: var(--color-navy);
+  box-shadow: 0 0 0 3px rgba(27, 54, 120, 0.15);
+}
+
+.admin-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.35rem;
+}
+
+@keyframes pathway-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.pathway-marquee {
+  animation: pathway-scroll 28s linear infinite;
+}
+
+.pathway-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes soft-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.soft-float {
+  animation: soft-float 4.5s ease-in-out infinite;
+}
