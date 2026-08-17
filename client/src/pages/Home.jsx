@@ -7,6 +7,7 @@ import {
   FaFileAlt,
   FaPlaneDeparture,
   FaQuoteLeft,
+  FaPassport,
 } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import SEO from '../components/SEO';
@@ -20,6 +21,7 @@ import HeroCarousel, { DEFAULT_SLIDES } from '../components/HeroCarousel';
 import ServiceCard from '../components/ServiceCard';
 import CountryCard from '../components/CountryCard';
 import FadeIn from '../components/FadeIn';
+import FAQAccordion from '../components/FAQAccordion';
 import Loader from '../components/Loader';
 import { getImageSrc } from '../utils/constants';
 
@@ -55,6 +57,56 @@ const PATHWAYS = [
   'Business Immigration',
 ];
 
+const DEFAULT_VISA_CLASSIFICATIONS = [
+  {
+    title: 'Study Visa',
+    description: 'For students pursuing education at recognized institutions overseas.',
+  },
+  {
+    title: 'Work Visa',
+    description: 'For skilled professionals seeking employment and career opportunities abroad.',
+  },
+  {
+    title: 'Permanent Residency',
+    description: 'Long-term settlement pathways for eligible individuals and their families.',
+  },
+  {
+    title: 'Visitor Visa',
+    description: 'For tourism, family visits, and other approved short-term travel.',
+  },
+  {
+    title: 'Business Visa',
+    description: 'For entrepreneurs, investors, and professionals conducting business overseas.',
+  },
+  {
+    title: 'Family Visa',
+    description: 'For eligible family reunification and sponsorship applications.',
+  },
+];
+
+const DEFAULT_FAQS = [
+  {
+    question: 'Which visa type is right for my profile?',
+    answer:
+      'The right visa depends on your education, work experience, destination, finances, and long-term goals. Our consultants assess your profile and recommend suitable pathways.',
+  },
+  {
+    question: 'How long does the immigration process take?',
+    answer:
+      'Processing times vary by country, visa category, and application complexity. We provide a realistic timeline after reviewing your profile and chosen pathway.',
+  },
+  {
+    question: 'Can you help with documentation and application filing?',
+    answer:
+      'Yes. We provide end-to-end guidance covering eligibility, document preparation, application review, filing, and follow-up support.',
+  },
+  {
+    question: 'Do you offer an initial consultation?',
+    answer:
+      'Yes. You can submit the assessment form or contact us directly to discuss your goals and understand the next steps.',
+  },
+];
+
 const Home = () => {
   const { content, testimonials, services, countries, loading } = useSelector((state) => state.site);
   const home = content?.home;
@@ -71,6 +123,11 @@ const Home = () => {
 
   const featuredServices = (services || []).filter((s) => s.isActive !== false).slice(0, 6);
   const featuredCountries = (countries || []).filter((c) => c.isActive !== false).slice(0, 4);
+  const visaClassifications =
+    home?.visaClassifications?.items?.length > 0
+      ? home.visaClassifications.items
+      : DEFAULT_VISA_CLASSIFICATIONS;
+  const faqItems = home?.faqs?.items?.length > 0 ? home.faqs.items : DEFAULT_FAQS;
 
   return (
     <>
@@ -225,6 +282,43 @@ const Home = () => {
         </section>
       )}
 
+      {/* Visa Classifications */}
+      <section className="section-padding relative overflow-hidden bg-navy text-white">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-28 -left-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+        <div className="container-custom relative">
+          <SectionHeading
+            light
+            eyebrow="Choose Your Pathway"
+            title={home?.visaClassifications?.title || 'Visa Classification Types'}
+            subtitle={
+              home?.visaClassifications?.subtitle ||
+              'Understand the main visa categories and find the pathway aligned with your goals.'
+            }
+          />
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {visaClassifications.map((item, index) => (
+              <FadeIn key={`${item.title}-${index}`} delay={index * 0.06}>
+                <article className="group h-full rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur-sm transition hover:-translate-y-1 hover:border-primary/60 hover:bg-white/15">
+                  <div className="mb-5 flex items-center justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-xl text-white">
+                      <FaPassport />
+                    </div>
+                    <span className="text-3xl font-bold text-white/15">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-white/70">
+                    {item.description}
+                  </p>
+                </article>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* How It Works */}
       <section className="section-padding bg-white">
         <div className="container-custom">
@@ -321,9 +415,9 @@ const Home = () => {
         </div>
         <div className="container-custom relative">
           <SectionHeading
-            eyebrow="Success Stories"
-            title="Our Happy Clients Are On Their Way"
-            subtitle="Real experiences from people who trusted us with their immigration journey."
+            eyebrow="Testimonials"
+            title="What Our Indian Clients Say"
+            subtitle="Real experiences from Indian clients who trusted us with their immigration journey."
           />
           <TestimonialSlider testimonials={testimonials} />
         </div>
@@ -352,6 +446,21 @@ const Home = () => {
               <p className="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
             </FadeIn>
           ))}
+        </div>
+      </section>
+
+      {/* FAQs */}
+      <section className="section-padding bg-surface">
+        <div className="container-custom">
+          <SectionHeading
+            eyebrow="FAQs"
+            title={home?.faqs?.title || 'Frequently Asked Questions'}
+            subtitle={
+              home?.faqs?.subtitle ||
+              'Quick answers to common questions about visas and the immigration process.'
+            }
+          />
+          <FAQAccordion items={faqItems} />
         </div>
       </section>
 

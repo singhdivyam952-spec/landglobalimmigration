@@ -18,6 +18,22 @@ const statisticSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const visaClassificationSchema = new mongoose.Schema(
+  {
+    title: { type: String, default: '' },
+    description: { type: String, default: '' },
+  },
+  { _id: false }
+);
+
+const faqSchema = new mongoose.Schema(
+  {
+    question: { type: String, default: '' },
+    answer: { type: String, default: '' },
+  },
+  { _id: false }
+);
+
 const teamMemberSchema = new mongoose.Schema(
   {
     name: { type: String, default: '' },
@@ -62,6 +78,16 @@ const contentSchema = new mongoose.Schema(
         title: { type: String, default: 'Why Choose Us' },
         subtitle: { type: String, default: '' },
         items: [whyChooseUsSchema],
+      },
+      visaClassifications: {
+        title: { type: String, default: 'Visa Classification Types' },
+        subtitle: { type: String, default: '' },
+        items: [visaClassificationSchema],
+      },
+      faqs: {
+        title: { type: String, default: 'Frequently Asked Questions' },
+        subtitle: { type: String, default: '' },
+        items: [faqSchema],
       },
       statistics: [statisticSchema],
       contactCta: {

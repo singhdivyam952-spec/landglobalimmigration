@@ -21,12 +21,12 @@ const links = [
   { to: '/contact', label: 'Contact Us' },
 ];
 
-const ReviewStrip = ({ testimonials }) => {
+const TestimonialStrip = ({ testimonials }) => {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
   const items = testimonials?.length
     ? testimonials
-    : [{ review: 'Professional and reliable immigration guidance', name: 'Client', designation: 'Verified' }];
+    : [{ review: 'Professional and reliable immigration guidance', name: 'Indian Client', designation: 'Verified' }];
 
   useEffect(() => {
     if (items.length <= 1) return undefined;
@@ -53,7 +53,7 @@ const ReviewStrip = ({ testimonials }) => {
         </span>
         <button
           type="button"
-          aria-label="Dismiss review"
+          aria-label="Dismiss testimonial"
           onClick={() => setVisible(false)}
           className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white sm:right-5"
         >
@@ -211,7 +211,7 @@ const Navbar = () => {
         </AnimatePresence>
       </div>
 
-      <ReviewStrip testimonials={testimonials} />
+      <TestimonialStrip testimonials={testimonials} />
     </header>
   );
 };

@@ -1,4 +1,9 @@
+import dns from 'node:dns';
 import mongoose from 'mongoose';
+
+// Windows/router DNS often breaks Node's SRV lookups for mongodb+srv://
+dns.setServers(['8.8.8.8', '1.1.1.1']);
+dns.setDefaultResultOrder('ipv4first');
 
 let cached = global.mongoose;
 

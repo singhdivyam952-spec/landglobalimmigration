@@ -61,7 +61,7 @@ const TestimonialsManager = () => {
   const save = async (e) => {
     e.preventDefault();
     if (!form.name.trim() || !form.review.trim()) {
-      toast.error('Name and review are required');
+      toast.error('Name and testimonial are required');
       return;
     }
     setSaving(true);
@@ -100,7 +100,7 @@ const TestimonialsManager = () => {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-2xl font-bold">Testimonials Manager</h2>
-          <p className="text-muted">Manage client reviews displayed on the homepage.</p>
+          <p className="text-muted">Manage client testimonials displayed on the homepage.</p>
         </div>
         <button type="button" onClick={openCreate} className="btn-primary !rounded-xl">
           <FaPlus /> Add Testimonial
@@ -165,7 +165,7 @@ const TestimonialsManager = () => {
             </div>
           </div>
           <div>
-            <label className="admin-label">Review</label>
+            <label className="admin-label">Testimonial</label>
             <textarea
               className="admin-input"
               rows={4}

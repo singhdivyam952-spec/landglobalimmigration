@@ -5,6 +5,8 @@ import ImageUpload from '../../components/ImageUpload';
 import Loader from '../../components/Loader';
 
 const emptyWhyItem = { title: '', description: '', icon: 'FaShieldAlt' };
+const emptyVisaClassification = { title: '', description: '' };
+const emptyFaq = { question: '', answer: '' };
 const emptyStat = { label: '', value: 0, suffix: '+' };
 const emptyValue = { title: '', description: '' };
 const emptyTeam = { name: '', role: '', bio: '', image: '' };
@@ -262,6 +264,149 @@ const ContentManager = () => {
               }
             >
               Add Why Choose Us Item
+            </button>
+
+            <h3 className="border-t border-black/5 pt-6 text-lg font-semibold">
+              Visa Classification Types
+            </h3>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <label className="admin-label">Section Title</label>
+                <input
+                  className="admin-input"
+                  value={home.visaClassifications?.title || ''}
+                  onChange={(e) => updateHome('visaClassifications.title', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="admin-label">Subtitle</label>
+                <input
+                  className="admin-input"
+                  value={home.visaClassifications?.subtitle || ''}
+                  onChange={(e) => updateHome('visaClassifications.subtitle', e.target.value)}
+                />
+              </div>
+            </div>
+            {(home.visaClassifications?.items || []).map((item, index) => (
+              <div
+                key={`${item.title}-${index}`}
+                className="grid gap-3 rounded-xl border border-black/5 p-4 md:grid-cols-[1fr_2fr_auto]"
+              >
+                <input
+                  className="admin-input"
+                  placeholder="Visa classification title"
+                  value={item.title}
+                  onChange={(e) => {
+                    const items = [...home.visaClassifications.items];
+                    items[index] = { ...items[index], title: e.target.value };
+                    updateHome('visaClassifications.items', items);
+                  }}
+                />
+                <textarea
+                  className="admin-input"
+                  rows={2}
+                  placeholder="Description"
+                  value={item.description}
+                  onChange={(e) => {
+                    const items = [...home.visaClassifications.items];
+                    items[index] = { ...items[index], description: e.target.value };
+                    updateHome('visaClassifications.items', items);
+                  }}
+                />
+                <button
+                  type="button"
+                  className="rounded-xl bg-red-50 px-3 text-sm text-red-600"
+                  onClick={() => {
+                    const items = [...home.visaClassifications.items];
+                    items.splice(index, 1);
+                    updateHome('visaClassifications.items', items);
+                  }}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn-outline !rounded-xl !border-navy !py-2 !text-sm !text-navy hover:!bg-navy hover:!text-white"
+              onClick={() =>
+                updateHome('visaClassifications.items', [
+                  ...(home.visaClassifications?.items || []),
+                  emptyVisaClassification,
+                ])
+              }
+            >
+              Add Visa Classification
+            </button>
+
+            <h3 className="border-t border-black/5 pt-6 text-lg font-semibold">
+              Frequently Asked Questions
+            </h3>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <label className="admin-label">Section Title</label>
+                <input
+                  className="admin-input"
+                  value={home.faqs?.title || ''}
+                  onChange={(e) => updateHome('faqs.title', e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="admin-label">Subtitle</label>
+                <input
+                  className="admin-input"
+                  value={home.faqs?.subtitle || ''}
+                  onChange={(e) => updateHome('faqs.subtitle', e.target.value)}
+                />
+              </div>
+            </div>
+            {(home.faqs?.items || []).map((item, index) => (
+              <div key={index} className="space-y-3 rounded-xl border border-black/5 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="font-medium">FAQ {index + 1}</p>
+                  <button
+                    type="button"
+                    className="text-sm text-red-500"
+                    onClick={() => {
+                      const items = [...home.faqs.items];
+                      items.splice(index, 1);
+                      updateHome('faqs.items', items);
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+                <input
+                  className="admin-input"
+                  placeholder="Question"
+                  value={item.question}
+                  onChange={(e) => {
+                    const items = [...home.faqs.items];
+                    items[index] = { ...items[index], question: e.target.value };
+                    updateHome('faqs.items', items);
+                  }}
+                />
+                <textarea
+                  className="admin-input"
+                  rows={3}
+                  placeholder="Answer"
+                  value={item.answer}
+                  onChange={(e) => {
+                    const items = [...home.faqs.items];
+                    items[index] = { ...items[index], answer: e.target.value };
+                    updateHome('faqs.items', items);
+                  }}
+                />
+              </div>
+            ))}
+            <button
+              type="button"
+              className="btn-outline !rounded-xl !border-navy !py-2 !text-sm !text-navy hover:!bg-navy hover:!text-white"
+              onClick={() =>
+                updateHome('faqs.items', [...(home.faqs?.items || []), emptyFaq])
+              }
+            >
+              Add FAQ
             </button>
 
             <h3 className="text-lg font-semibold">Statistics</h3>

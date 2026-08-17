@@ -18,8 +18,8 @@ const Footer = () => {
         <div className="lg:col-span-4">
           <BrandLogo className="h-14 w-14" inverted />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/70">
-            Premium immigration consultancy helping clients navigate visas, residency, and global
-            relocation with confidence and clarity.
+            Premium immigration consultancy helping Indian clients navigate visas, residency, and
+            global relocation with confidence and clarity.
           </p>
           <div className="mt-6 flex gap-3">
             {[

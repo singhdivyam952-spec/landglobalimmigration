@@ -40,7 +40,7 @@ const seedData = async () => {
         introduction: {
           title: 'About Land Global Immigration',
           description:
-            'Land Global Immigration is a premium consultancy dedicated to helping individuals and families achieve their international aspirations. With deep expertise across study, work, business, and permanent residency pathways, we deliver personalized strategies backed by transparent processes and proven results.',
+            'Land Global Immigration is a premium consultancy dedicated to helping Indian clients and families achieve their international aspirations. With deep expertise across study, work, business, and permanent residency pathways, we deliver personalized strategies backed by transparent processes and proven results.',
           image:
             'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80',
         },
@@ -80,8 +80,72 @@ const seedData = async () => {
             },
           ],
         },
+        visaClassifications: {
+          title: 'Visa Classification Types',
+          subtitle:
+            'Understand the main visa categories and find the pathway aligned with your goals.',
+          items: [
+            {
+              title: 'Study Visa',
+              description:
+                'For students pursuing education at recognized institutions overseas.',
+            },
+            {
+              title: 'Work Visa',
+              description:
+                'For skilled professionals seeking employment and career opportunities abroad.',
+            },
+            {
+              title: 'Permanent Residency',
+              description:
+                'Long-term settlement pathways for eligible individuals and their families.',
+            },
+            {
+              title: 'Visitor Visa',
+              description:
+                'For tourism, family visits, and other approved short-term travel.',
+            },
+            {
+              title: 'Business Visa',
+              description:
+                'For entrepreneurs, investors, and professionals conducting business overseas.',
+            },
+            {
+              title: 'Family Visa',
+              description:
+                'For eligible family reunification and sponsorship applications.',
+            },
+          ],
+        },
+        faqs: {
+          title: 'Frequently Asked Questions',
+          subtitle:
+            'Quick answers to common questions about visas and the immigration process.',
+          items: [
+            {
+              question: 'Which visa type is right for my profile?',
+              answer:
+                'The right visa depends on your education, work experience, destination, finances, and long-term goals. Our consultants assess your profile and recommend suitable pathways.',
+            },
+            {
+              question: 'How long does the immigration process take?',
+              answer:
+                'Processing times vary by country, visa category, and application complexity. We provide a realistic timeline after reviewing your profile and chosen pathway.',
+            },
+            {
+              question: 'Can you help with documentation and application filing?',
+              answer:
+                'Yes. We provide end-to-end guidance covering eligibility, document preparation, application review, filing, and follow-up support.',
+            },
+            {
+              question: 'Do you offer an initial consultation?',
+              answer:
+                'Yes. You can submit the assessment form or contact us directly to discuss your goals and understand the next steps.',
+            },
+          ],
+        },
         statistics: [
-          { label: 'Successful Clients', value: 5000, suffix: '+' },
+          { label: 'Successful Indian Clients', value: 5000, suffix: '+' },
           { label: 'Countries Covered', value: 12, suffix: '+' },
           { label: 'Years of Experience', value: 15, suffix: '+' },
           { label: 'Visa Categories', value: 40, suffix: '+' },
@@ -96,7 +160,7 @@ const seedData = async () => {
         companyStory: {
           title: 'Our Story',
           description:
-            'Founded with a vision to make international migration accessible and reliable, Land Global Immigration has grown into a trusted consultancy serving clients across continents. We believe every successful immigration journey starts with the right advice, careful planning, and unwavering commitment.',
+            'Founded with a vision to make international migration accessible and reliable, Land Global Immigration has grown into a trusted consultancy serving Indian clients across destinations worldwide. We believe every successful immigration journey starts with the right advice, careful planning, and unwavering commitment.',
           image:
             'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
         },
@@ -252,37 +316,37 @@ const seedData = async () => {
       {
         name: 'Canada',
         image:
-          'https://images.unsplash.com/photo-1519832979-6fa011b87667?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1519832979-6fa011b87667?auto=format&fit=crop&w=1200&q=80',
         status: 'active',
       },
       {
         name: 'Australia',
         image:
-          'https://images.unsplash.com/photo-1523482580671-b37b7aa8786d?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1200&q=80',
         status: 'active',
       },
       {
         name: 'United Kingdom',
         image:
-          'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=80',
         status: 'active',
       },
       {
         name: 'United States',
         image:
-          'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=1200&q=80',
         status: 'active',
       },
       {
         name: 'New Zealand',
         image:
-          'https://images.unsplash.com/photo-1469521669194-babb389a3325?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=1200&q=80',
         status: 'active',
       },
       {
         name: 'Germany',
         image:
-          'https://images.unsplash.com/photo-1467260202944-bd555884cca4?auto=format&fit=crop&w=800&q=80',
+          'https://images.unsplash.com/photo-1528728329032-2972f65dfb3f?auto=format&fit=crop&w=1200&q=80',
         status: 'active',
       },
     ]);
@@ -300,7 +364,7 @@ const seedData = async () => {
         status: 'active',
       },
       {
-        name: 'James Okonkwo',
+        name: 'Rahul Sharma',
         designation: 'MBA Student · United Kingdom',
         review:
           'From university shortlisting to visa approval, the team provided outstanding support. I felt confident throughout the entire process.',
@@ -310,7 +374,7 @@ const seedData = async () => {
         status: 'active',
       },
       {
-        name: 'Maria Santos',
+        name: 'Ananya Reddy',
         designation: 'Entrepreneur · Australia',
         review:
           'Their business immigration expertise is exceptional. They crafted a strategy that matched my investment goals and timeline perfectly.',
@@ -323,7 +387,7 @@ const seedData = async () => {
         name: 'Arjun Patel',
         designation: 'Healthcare Professional · New Zealand',
         review:
-          'Professional, transparent, and highly knowledgeable. I recommend Land Global Immigration to anyone serious about relocating abroad.',
+          'Professional, transparent, and highly knowledgeable. I recommend Land Global Immigration to any Indian client serious about relocating abroad.',
         rating: 5,
         image:
           'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',

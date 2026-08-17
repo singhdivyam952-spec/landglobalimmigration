@@ -17,7 +17,7 @@ const TestimonialSlider = ({ testimonials = [] }) => {
   if (!testimonials.length) {
     return (
       <div className="rounded-2xl bg-white p-10 text-center text-muted shadow-sm ring-1 ring-black/5">
-        Client stories will appear here soon.
+        Indian client stories will appear here soon.
       </div>
     );
   }
