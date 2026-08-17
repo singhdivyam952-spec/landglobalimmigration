@@ -7,14 +7,29 @@ import toast from 'react-hot-toast';
 import { leadService } from '../services';
 import Button from './Button';
 
+const phoneDigits = (value = '') => String(value).replace(/\D/g, '');
+
 const schema = yup.object({
   name: yup.string().trim().required('Full name is required'),
   phone: yup
     .string()
     .trim()
     .required('Mobile number is required')
-    .matches(/^[+\d][\d\s\-()]{6,19}$/, 'Enter a valid phone number'),
-  email: yup.string().trim().email('Enter a valid email').required('Email is required'),
+    .test(
+      'valid-phone',
+      'Enter a valid phone number (10–15 digits)',
+      (value) => {
+        const digits = phoneDigits(value);
+        return digits.length >= 10 && digits.length <= 15;
+      }
+    )
+    .matches(/^[+\d][\d\s\-()]{8,19}$/, 'Enter a valid phone number'),
+  email: yup
+    .string()
+    .trim()
+    .required('Email is required')
+    .email('Enter a valid email address')
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, 'Enter a valid email address'),
   countryInterested: yup.string().trim().required('Please select a country'),
   visaType: yup.string().trim().required('Please select a visa type'),
   message: yup.string().trim(),
@@ -40,6 +55,8 @@ const ContactForm = ({ compact = false }) => {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
     defaultValues: {
       name: '',
       phone: '',
@@ -91,6 +108,12 @@ const ContactForm = ({ compact = false }) => {
         <div>
           <label className={labelClass}>Mobile Number *</label>
           <input
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            required
+            aria-required="true"
+            aria-invalid={Boolean(errors.phone)}
             {...register('phone')}
             className={fieldClass(errors.phone)}
             placeholder="+91 95787 00074"
@@ -103,6 +126,11 @@ const ContactForm = ({ compact = false }) => {
         <label className={labelClass}>Email Address *</label>
         <input
           type="email"
+          inputMode="email"
+          autoComplete="email"
+          required
+          aria-required="true"
+          aria-invalid={Boolean(errors.email)}
           {...register('email')}
           className={fieldClass(errors.email)}
           placeholder="you@example.com"
