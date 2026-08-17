@@ -9,11 +9,12 @@ const leadSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: [true, 'Phone number is required'],
+      default: '',
       trim: true,
       validate: {
         validator(value) {
-          const digits = String(value || '').replace(/\D/g, '');
+          if (!value) return true;
+          const digits = String(value).replace(/\D/g, '');
           return digits.length >= 10 && digits.length <= 15;
         },
         message: 'Phone number must contain 10–15 digits',
@@ -21,10 +22,16 @@ const leadSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, 'Email is required'],
+      default: '',
       lowercase: true,
       trim: true,
-      match: [/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, 'Please provide a valid email address'],
+      validate: {
+        validator(value) {
+          if (!value) return true;
+          return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+        },
+        message: 'Please provide a valid email address',
+      },
     },
     countryInterested: {
       type: String,
@@ -44,5 +51,12 @@ const leadSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+leadSchema.pre('validate', function ensureContactMethod(next) {
+  if (!this.phone && !this.email) {
+    this.invalidate('email', 'Either a phone number or an email address is required');
+  }
+  next();
+});
 
 export default mongoose.model('Lead', leadSchema);

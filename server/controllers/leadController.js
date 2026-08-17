@@ -2,7 +2,12 @@ import Lead from '../models/Lead.js';
 
 export const createLead = async (req, res, next) => {
   try {
-    const lead = await Lead.create(req.body);
+    const payload = {
+      ...req.body,
+      phone: (req.body.phone || '').trim(),
+      email: (req.body.email || '').trim(),
+    };
+    const lead = await Lead.create(payload);
     res.status(201).json({
       success: true,
       message: 'Thank you! Your enquiry has been submitted successfully.',

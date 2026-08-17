@@ -8,33 +8,49 @@ import { leadService } from '../services';
 import Button from './Button';
 
 const phoneDigits = (value = '') => String(value).replace(/\D/g, '');
+const isBlank = (value) => !value || !String(value).trim();
+const isValidPhone = (value) => {
+  if (isBlank(value)) return true;
+  const digits = phoneDigits(value);
+  return (
+    digits.length >= 10 &&
+    digits.length <= 15 &&
+    /^[+\d][\d\s\-()]{8,19}$/.test(String(value).trim())
+  );
+};
+const isValidEmail = (value) => {
+  if (isBlank(value)) return true;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(value).trim());
+};
 
 const schema = yup.object({
   name: yup.string().trim().required('Full name is required'),
   phone: yup
     .string()
     .trim()
-    .required('Mobile number is required')
+    .test('valid-phone', 'Enter a valid phone number (10–15 digits)', isValidPhone)
     .test(
-      'valid-phone',
-      'Enter a valid phone number (10–15 digits)',
-      (value) => {
-        const digits = phoneDigits(value);
-        return digits.length >= 10 && digits.length <= 15;
+      'phone-or-email',
+      'Enter either a mobile number or an email address',
+      function phoneOrEmail(value) {
+        return !isBlank(value) || !isBlank(this.parent.email);
       }
-    )
-    .matches(/^[+\d][\d\s\-()]{8,19}$/, 'Enter a valid phone number'),
+    ),
   email: yup
     .string()
     .trim()
-    .required('Email is required')
-    .email('Enter a valid email address')
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, 'Enter a valid email address'),
+    .test('valid-email', 'Enter a valid email address', isValidEmail)
+    .test(
+      'email-or-phone',
+      'Enter either a mobile number or an email address',
+      function emailOrPhone(value) {
+        return !isBlank(value) || !isBlank(this.parent.phone);
+      }
+    ),
   countryInterested: yup.string().trim().required('Please select a country'),
   visaType: yup.string().trim().required('Please select a visa type'),
   message: yup.string().trim(),
 });
-
 const visaTypes = [
   'Permanent Residency',
   'Study Visa',
@@ -106,13 +122,11 @@ const ContactForm = ({ compact = false }) => {
           {errors.name && <p className={errorClass}>{errors.name.message}</p>}
         </div>
         <div>
-          <label className={labelClass}>Mobile Number *</label>
+          <label className={labelClass}>Mobile Number</label>
           <input
             type="tel"
             inputMode="tel"
             autoComplete="tel"
-            required
-            aria-required="true"
             aria-invalid={Boolean(errors.phone)}
             {...register('phone')}
             className={fieldClass(errors.phone)}
@@ -123,19 +137,20 @@ const ContactForm = ({ compact = false }) => {
       </div>
 
       <div>
-        <label className={labelClass}>Email Address *</label>
+        <label className={labelClass}>Email Address</label>
         <input
           type="email"
           inputMode="email"
           autoComplete="email"
-          required
-          aria-required="true"
           aria-invalid={Boolean(errors.email)}
           {...register('email')}
           className={fieldClass(errors.email)}
           placeholder="you@example.com"
         />
         {errors.email && <p className={errorClass}>{errors.email.message}</p>}
+        <p className={compact ? 'mt-0.5 text-[11px] text-muted' : 'mt-1 text-xs text-muted'}>
+          Provide either a mobile number or an email address (or both).
+        </p>
       </div>
 
       <div className={`grid ${compact ? 'gap-2.5' : 'gap-4 sm:gap-5'} grid-cols-1 sm:grid-cols-2`}>
